@@ -1,0 +1,12 @@
+#first-div {
+  background-color: yellow;
+}
+
+#second-div {
+  display: none;
+  background-color: orange;
+}
+
+#third-div {
+  background-color: pink;
+}
