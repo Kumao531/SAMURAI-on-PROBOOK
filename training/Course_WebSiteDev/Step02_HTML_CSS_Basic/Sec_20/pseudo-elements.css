@@ -1,0 +1,15 @@
+h1::before {
+  content: "🔶";
+  color: orange;
+}
+
+h1::after {
+  content: "■";
+  color: pink;
+}
+
+p::first-line {
+  font-size: 24px;
+  font-weight: bold;
+  color: gray;
+}

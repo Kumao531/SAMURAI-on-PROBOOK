@@ -1,0 +1,19 @@
+.parent {
+  background-color: whitesmoke;
+}
+
+a:active {
+  color: orange;
+}
+
+.parent p:nth-child(4) {
+  color: red;
+}
+
+.parent p:nth-of-type(4) {
+  color: blue;
+}
+
+.parent :not(p) {
+  text-decoration: line-through;
+}
