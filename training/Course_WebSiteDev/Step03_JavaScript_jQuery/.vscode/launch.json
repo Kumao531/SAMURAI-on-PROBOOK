@@ -1,0 +1,10 @@
+{
+  "configurations": [
+    {
+      "type": "chrome",
+      "name": "http://127.0.0.1:3000/Tema01_Basic_JavaScript/Sec_17/dom.html",
+      "request": "launch",
+      "url": "http://127.0.0.1:3000/Tema01_Basic_JavaScript/Sec_17/dom.html"
+    }
+  ]
+}
