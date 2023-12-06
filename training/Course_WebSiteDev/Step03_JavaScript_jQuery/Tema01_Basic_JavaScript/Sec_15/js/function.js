@@ -16,11 +16,3 @@ sayGoodMorning();
 
 // 晩の挨拶をする関数を呼び出す
 sayGoodEvening();
-
-
-// 与えられたpriceに送料を加算して、その値を出力する関数を定義する
-const calculateTotal = (price) => {
-  console.log( price + 500 + '円' );
-}
-
-calculateTotal(1200);
