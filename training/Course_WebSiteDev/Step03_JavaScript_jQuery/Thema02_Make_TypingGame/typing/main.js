@@ -1,9 +1,15 @@
 // 変数の初期化
 // タイピングする文字列を格納する変数
 let untyped = '';
+let typed = '';
+let score = 0;
 
-// 打ち込んでいない文字列を記述しているとこの、HTML要素を取得する
+// 必要なHTML要素を取得する
 const untypedField = document.getElementById('untyped');
+const typedField = document.getElementById('typed');
+const wrap = document.getElementById('wrap');
+const start = document.getElementById('start');
+const count = document.getElementById('count');
 
 // 複数のテキストを格納する配列
 const textLists = [
@@ -24,6 +30,11 @@ const textLists = [
 
 // ランダムなテキストを表示
 const createText = () => {
+
+  // 正しくタイプが終わればタイプが終わった文字列をクリア
+  typed = '';
+  typedField.textContent = typed;
+
   // 配列のインデックス数からランダムな数値を生成する
   let random = Math.floor(Math.random() * textLists.length );
 
@@ -31,16 +42,108 @@ const createText = () => {
   untyped = textLists[random];
   untypedField.textContent = untyped;
 };
-createText();
+
 
 // キー入力の判定
-const keyPress = e => {};
+const keyPress = e => {
+
+  // 誤タイプの時の処理
+  if ( e.key !== untyped.substring(0,1) ) {
+    wrap.classList.add('mistyped');
+
+    // 100ms後に背景色を元に戻す
+    setTimeout( () => {
+      wrap.classList.remove('mistyped');
+    }, 100);
+    return;
+  }
+
+  // 正しいタイプの場合
+  // スコアを1上げる
+  score++;
+  // １文字untypedFieldからtypedFieldへ移動させる
+  typed += untyped.substring(0,1);
+  untyped = untyped.substring(1);
+  typedField.textContent = typed;
+  untypedField.textContent = untyped;
+
+  // テキストがなくなったら新しいテキストを表示
+  if ( untyped === '' ) {
+    createText();
+  }
+
+};
 
 // タイピングスキルのランクの判定
-const rankCheck = score =>  {};
+const rankCheck = score =>  {
+
+  // テキストを格納する変数を作る
+  let text = '';
+
+  // スコアに応じて異なるメッセージを変数textに格納する
+  if(score < 100) {
+    text = `あなたのランクはCです。\nBランクまであと${100 - score}文字です。`;
+  } else if(score < 200) {
+    text = `あなたのランクはBです。\nAランクまであと${200 - score}文字です。`;
+  } else if(score < 300) {
+    text = `あなたのランクはAです。\nSランクまであと${300 - score}文字です。`;
+  } else if(score >= 300) {
+    text = `あなたのランクはSです。\nおめでとうございます!`;
+  }
+
+   // 生成したメッセージと一緒に文字列を返す
+  return `${score}文字打てました!\n${text}\n【OK】リトライ / 【キャンセル】終了`;
+};
 
 // ゲームを終了
-const gameOver = id => {};
+const gameOver = id => {
+
+  // カウントダウンタイマーを止める
+  clearInterval(id);
+
+  const result = confirm(rankCheck(score));
+
+  if ( result == true ) {
+    window.location.reload();
+  }
+
+};
 
 // カウントダウンタイマー
-const timer = () => {};
+const timer = () => {
+
+  // タイマー部分のHTML要素（P要素）を取得する
+  let time = count.textContent;
+
+  // タイマーの処理の作成
+  const id = setInterval (()=> {
+
+    // カウントダウンする
+    time--;
+    count.textContent = time;
+
+    if ( time <= 0 ) {
+      clearInterval(id);
+      gameOver(id);
+    }
+
+  }, 1000 );
+};
+
+// ゲームスタート時処理
+start.addEventListener( 'click', () => {
+
+  // カウントダウンタイマーをスタートさせる
+  timer();
+
+  // ランダムテキストを表示する
+  createText();
+
+  // 「スタート」ボタンを非表示にする
+  start.style.display = 'none';
+
+  // キーボードのイベント処理を設定
+  document.addEventListener('keypress',keyPress);
+});
+
+untypedField.textContent = 'スタートボタンで開始';
