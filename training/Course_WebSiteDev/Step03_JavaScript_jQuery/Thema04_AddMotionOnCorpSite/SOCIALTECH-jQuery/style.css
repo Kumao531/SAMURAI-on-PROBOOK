@@ -20,6 +20,16 @@ p {
  PC用のスタイル
 =================*/
 @media screen and (min-width: 768px) {
+    /* カルーセル用設定 */
+    .carousel {
+        width: 885px;
+        margin-left: 20px;
+    }
+
+    .carouselImag {
+        width: 885px;
+    }
+    
     /* 横幅設定 */
     body {
         max-width: 1080px;
